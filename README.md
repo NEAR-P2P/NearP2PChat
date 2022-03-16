@@ -23,7 +23,9 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-### Conexion a la Base de datos Firebase 
+------------------------
+-------------------------
+### Firebase Database Connection
 
 ```javascript
 const firebaseConfig = {
@@ -37,26 +39,26 @@ const firebaseConfig = {
   };
 ```
   
-### Inicializacion de la base de datos
+### Database initialization
 ```javascript
 firebase.initializeApp(firebaseConfig)
 ```
 
-### Autentificacion de manera anonima con firebase
+### Anonymous authentication with firebase
 ```javascript
 firebase.auth().onAuthStateChanged(() => new Vue({
   render: h => h(App),
 }).$mount('#app'))
 ```
 
-### Exportacion de las librerias
+### Export of libraries
 ```javascript
 export const db = firebase.firestore();
 export const storage = firebase.storage();
 //export const storage = firebase.firestore();
 ```
 
-### Autentifiacion con usuario Anonimo
+### Authentication with anonymous user
 
 ```javascript
 <script>
@@ -83,7 +85,7 @@ export default {
 </script>
 ```
 
- ### Rutina para crear la sala del Chat
+ ### Routine to create the chat room
    
  ```javascript
  const room1Ref = db.collection('room1');
@@ -112,7 +114,7 @@ export default {
   },
 ```
 
-### Catptura el url de la imagen
+### Capture the url of the image
  ```javascript
   computed: {
     messagePhoto() {
@@ -121,7 +123,7 @@ export default {
   },
   ```
   
- ### Captura de la conversacion en formato json
+ ### Capture of the conversation in json format
  
   ```javascript
     async Confirmar() {
@@ -136,7 +138,7 @@ export default {
     },   
   ```
 
-### Filtrado de envio y recepcion de mensajes
+### Filtering sending and receiving messages
 ```javascript
     sentOrReceived(userUID) {
       return userUID === this.user.uid ? 'sent' : 'received'
@@ -144,7 +146,7 @@ export default {
       },
   ```
  
-### Envio de mensaje
+### Send message
 ```javascript
     async sendMessage(event) {
        event.preventDefault()
@@ -181,7 +183,7 @@ export default {
     },
  ```
  
- ### Grabar el mensaje
+ ### Record the message
  
  ```javascript
  async Grabar() {      
