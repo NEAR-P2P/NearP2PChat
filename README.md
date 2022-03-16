@@ -1,4 +1,4 @@
-# chat_near_dex
+# Chat_near_dex
 
 ## Project setup
 ```
