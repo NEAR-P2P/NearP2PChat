@@ -23,7 +23,65 @@ npm run lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
+### Conexion a la Base de datos Firebase 
 
+```javascript
+const firebaseConfig = {
+    apiKey: "AIzaSyCEDG7t9UpmiNWsjPyd_rwucL_s2ppexLk",
+    authDomain: "chat-near-dex.firebaseapp.com",
+    databaseURL: "https://chat-near-dex-default-rtdb.firebaseio.com",
+    projectId: "chat-near-dex",
+    storageBucket: "chat-near-dex.appspot.com",
+    messagingSenderId: "601318580099",
+    appId: "1:601318580099:web:ea212ac3d89f8ef24ae0b6"
+  };
+```
+  
+### Inicializacion de la base de datos
+```javascript
+firebase.initializeApp(firebaseConfig)
+```
+
+### Autentificacion de manera anonima con firebase
+```javascript
+firebase.auth().onAuthStateChanged(() => new Vue({
+  render: h => h(App),
+}).$mount('#app'))
+```
+
+### Exportacion de las librerias
+```javascript
+export const db = firebase.firestore();
+export const storage = firebase.storage();
+//export const storage = firebase.firestore();
+```
+
+### Autentifiacion con usuario Anonimo
+
+```javascript
+<script>
+import firebase from 'firebase/compat/app'
+import { getAuth, signInAnonymously } from "firebase/auth";
+export default {
+    data() {
+    return {
+      user: firebase.auth().currentUser,
+      db: firebase.firestore(),
+    }
+  },
+    methods: {
+       loginSumit() {
+        const auth = getAuth();
+        signInAnonymously(auth)
+          .then(() => {
+
+          })
+       }, 
+    }    
+
+ }
+</script>
+```
 
  ### Rutina para crear la sala del Chat
    
@@ -49,7 +107,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
       .onSnapshot(querySnap => {this.messages = querySnap.docs.map(doc => doc.data())})
       this.$refs['scrollable'].scrollIntoView({ behavior: 'smooth' })
 
-      return;
+    		  return;
       
   },
 ```
@@ -91,7 +149,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
     async sendMessage(event) {
        event.preventDefault()
 
-
         if (this.photo) {
 
           const timestamp = Date.now();
@@ -123,3 +180,23 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
         }
     },
  ```
+ 
+ ### Grabar el mensaje
+ 
+ ```javascript
+ async Grabar() {      
+            const messageInfo = {
+            'userUID': this.user.uid,
+            'displayName': 'gperez83.near',
+            'photoURL': this.picture,
+            'text': this.message,
+            'created': Date.now(),
+            'room': 'room1'
+            
+          }
+          await this.db.collection('room1').add(messageInfo)
+          this.message = ''
+          this.$refs['scrollable'].scrollIntoView({ behavior: 'smooth' })
+          this.photo = null;
+   }
+```
